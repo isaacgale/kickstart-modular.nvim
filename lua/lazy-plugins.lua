@@ -50,6 +50,13 @@ require('lazy').setup({
     },
   },
 
+  {
+    "ray-x/lsp_signature.nvim",
+    config = function()
+      require "lsp_signature".setup()
+    end
+  },
+
   -- Useful plugin to show you pending keybinds.
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
@@ -277,8 +284,6 @@ require('lazy').setup({
     },
     build = ':TSUpdate',
   },
-
-  {'mfussenegger/nvim-jdtls'},
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.

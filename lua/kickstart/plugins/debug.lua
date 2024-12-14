@@ -20,7 +20,8 @@ return {
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
-    local jdtls = require 'jdtls'
+    dapui.setup()
+    --local jdtls = require 'jdtls'
 
     -- Basic debugging keymaps, feel free to change to your liking!
     vim.keymap.set('n', '<F8>', dap.continue, { desc = 'Debug: Start/Continue' })
@@ -31,8 +32,8 @@ return {
     vim.keymap.set('n', '<leader>B', function()
       dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
     end, { desc = 'Debug: Set Breakpoint' })
-    vim.keymap.set("n", "<leader>dt", jdtls.test_class, {desc = 'Run test class'})
-    vim.keymap.set("n", "<leader>dn", jdtls.test_nearest_method, {desc = 'Run test method'})
+    --vim.keymap.set("n", "<leader>dt", jdtls.test_class, {desc = 'Run test class'})
+    --vim.keymap.set("n", "<leader>dn", jdtls.test_nearest_method, {desc = 'Run test method'})
 
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     vim.keymap.set('n', '<F1>', dapui.toggle, { desc = 'Debug: See last session result.' })
