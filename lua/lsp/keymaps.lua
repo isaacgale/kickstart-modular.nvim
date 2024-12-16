@@ -42,8 +42,10 @@ function M.on_attach(client, bufnr)
   if client.name == 'jdtls' then
     local jdtls = require('jdtls')
 
-    nmap("<leader>dt", jdtls.test_class, 'Run test class')
-    nmap("<leader>dn", jdtls.test_nearest_method, 'Run test method')
+    nmap("<leader>dt", jdtls.test_class, 'Debug/Run test class')
+    nmap("<leader>dn", jdtls.test_nearest_method, 'Debug/Run test method')
+    nmap("<leader>oi", jdtls.organize_imports, '[O]rganize [I]mports')
+
   end
 
   -- Create a command `:Format` local to the LSP buffer

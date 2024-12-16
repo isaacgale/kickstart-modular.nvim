@@ -60,18 +60,6 @@ return {
       -- get the common keymaps
       require('../lsp.keymaps').on_attach(client, bufnr)
 
-      -- not sure if we want this globally
-      require("lsp_signature").on_attach({
-        bind = true,
-        padding = "",
-        handler_opts = {
-          border = "rounded",
-        },
-        hint_prefix = "󱄑 ",
-      }, bufnr)
-
-      -- NOTE: comment out if you don't use Lspsaga
-      --    require 'lspsaga'.init_lsp_saga()
     end
 
     local config = {
