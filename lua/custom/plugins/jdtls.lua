@@ -53,16 +53,14 @@ return {
     local workspace = get_workspace()
 
     -- LSP settings for Java.
-    local on_attach = function(_, bufnr)
+    local on_attach = function (client, bufnr)
       jdtls.setup_dap({ hotcodereplace = "auto" })
       jdtls_dap.setup_dap_main_class_configs()
-      --jdtls_setup.add_commands()
 
-      -- Create a command `:Format` local to the LSP buffer
-      vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-        vim.lsp.buf.format()
-      end, { desc = "Format current buffer with LSP" })
+      -- get the common keymaps
+      require('../lsp.keymaps').on_attach(client, bufnr)
 
+      -- not sure if we want this globally
       require("lsp_signature").on_attach({
         bind = true,
         padding = "",
@@ -74,21 +72,7 @@ return {
 
       -- NOTE: comment out if you don't use Lspsaga
       --    require 'lspsaga'.init_lsp_saga()
-
     end
-
-    local capabilities = {
-      workspace = {
-        configuration = true
-      },
-      textDocument = {
-        completion = {
-          completionItem = {
-            snippetSupport = true
-          }
-        }
-      }
-    }
 
     local config = {
       flags = {
@@ -96,6 +80,10 @@ return {
       },
       root_dir = jdtls_setup.find_root({ '.git', 'mvnw', 'gradlew', 'pom.xml', 'build.grade'})
     }
+
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+    config.capabilities = capabilities
 
     config.cmd = {
       '/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home/bin/java',
@@ -209,10 +197,12 @@ return {
       extendedClientCapabilities = extendedClientCapabilities,
     }
 
-    -- Start Server
-    require('jdtls').start_or_attach(config)
-
-    -- Set Java Specific Keymaps
-    --require("jdtls.keymaps")
+    -- Start Server or attach to each 'java' file
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = 'java',
+      callback = function ()
+        require('jdtls').start_or_attach(config)
+      end
+    })
   end
 }
